@@ -29,9 +29,11 @@ public class Practica3{
         HashMap<String, String>
         salidasDigest = new HashMap<>();
 
+        System.out.println("Resultados:");
         for (String entrada:entradas){
             String hash = generarHash(entrada);
             salidasDigest.put(entrada,hash);
+            System.out.println("Entrada: '" + ent + "' -> Hash: " + hash);
         }
     }
 
