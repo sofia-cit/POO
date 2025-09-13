@@ -26,14 +26,13 @@ public class Practica3{
         for (String arg:args){
             entradas.add(arg);
         }
-        HashMap<String, String>
-        salidasDigest = new HashMap<>();
+        HashMap<String, String> salidasDigest = new HashMap<>();
 
         System.out.println("Resultados:");
-        for (String entrada:entradas){
-            String hash = generarHash(entrada);
-            salidasDigest.put(entrada,hash);
-            System.out.println("Entrada: '" + ent + "' -> Hash: " + hash);
+        for (String ent:entradas){
+            String hash = generarHash(ent);
+            salidasDigest.put(ent,hash);
+            System.out.println("Entrada: \"" + ent + "\" ->Hash: " + hash);
         }
     }
 
