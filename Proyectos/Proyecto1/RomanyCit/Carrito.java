@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 public class Carrito {
-    ArrayList <Articulo> lista = new ArrayList<>(); 
+    ArrayList <Articulo> lista = new ArrayList<Articulo>(); 
 
 
     public void agregarArticulo(Articulo art){
