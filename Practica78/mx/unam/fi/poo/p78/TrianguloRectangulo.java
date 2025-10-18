@@ -2,12 +2,14 @@ package mx.unam.fi.poo.p78;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
+import mx.unam.fi.poo.p78.Figura;
+
 public class TrianguloRectangulo extends Figura {
     private double base;
     private double altura;
     public TrianguloRectangulo(double base, double altura) {
-        this.base = base;
-        this.altura = altura;
+        setBase(base);
+        setAltura(altura);
     }
     public double getBase() {
         return base;

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 public class Circulo extends Figura {
     private double radio;
     public Circulo(double radio) {
-        this.radio = radio;
+        setRadio(radio);
     }
     public double getRadio() {
         return radio;

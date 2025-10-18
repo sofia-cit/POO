@@ -1,6 +1,9 @@
 package mx.unam.fi.poo.p78;
 
 import javax.swing.JPanel;
+
+import mx.unam.fi.poo.p78.Figura;
+
 import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,6 +1,9 @@
 package mx.unam.fi.poo.p78;
 
 import javax.swing.*;
+
+import mx.unam.fi.poo.p78.Figura;
+
 import java.awt.*;
 import java.util.Objects;
 

@@ -2,13 +2,15 @@ package mx.unam.fi.poo.p78;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
+import mx.unam.fi.poo.p78.Figura;
+
 public class Rectangulo extends Figura {
     private double ancho;
     private double alto;
 
     public Rectangulo(double ancho, double alto) {
-        this.ancho = ancho;
-        this.alto = alto;
+        setAncho(ancho);
+        setAlto(alto);
     }
     public double getAncho() {
         return ancho;
