@@ -1,4 +1,5 @@
-package mx.unam.fi.poo.exam2;  
+package mx.unam.fi.poo.exam2;
+  
 //hereda de CuentaBancaria e implementa Transaccionable para cobrar una comision
 public class CuentaCorriente extends CuentaBancaria implements Transaccionable {
     private double limiteSobregiro; 
