@@ -113,7 +113,6 @@ class Efectividad {
 }
 
 //Items
-
 abstract class Item{
   String _nombreItem;
   String _tipoItem;
