@@ -75,18 +75,46 @@ final Ataque AireAfilado= Ataque("Flying","Aire Afilado",75);
 final Ataque danzaPluma= Ataque("Flying","Danza Pluma",20);//mayor probabilidad estado
 
 // Ground
-
+final Ataque bofetonLodo= Ataque("Ground", "Bofeton Lodo",55);
+final Ataque disparoLodo= Ataque("Ground", "Disparo Lodo",55);
+final Ataque bombaFango= Ataque("Ground", "Bomba Fango",65);
+final Ataque terremoto= Ataque("Ground", "Terremoto",100);
+final Ataque arenasArdientes= Ataque("Ground", "Arenas Ardientes",70);
+final Ataque ataqueArena= Ataque("Ground", "Ataque Arena",20);//mayor probabilidad estado
+final Ataque terratemblor= Ataque("Ground", "Terratemblor",60);
 
 //Poison
-
+final Ataque picotazoVenenoso= Ataque ("Poison","Picotazo Venenoso", 45);
+final Ataque deslumbrar= Ataque ("Poison","Deslumbrar", 30);//mayor probabilidad estado paralizado
+final Ataque acido= Ataque ("Poison","Acido", 40);//mayor probabilidad estado
+final Ataque doblePatada= Ataque ("Poison","Doble Patada", 70);
+final Ataque colaVeneno= Ataque("Poison","Cola Veneno", 50);
+final Ataque niebla= Ataque ("Poison","niebla", 15);//mayor probabilidad estado
+final Ataque colmilloVenenoso= Ataque ("Poison","Colmillo Venenoso", 90);
 
 //Fight
+final Ataque patadaBaja= Ataque ("Fight","Patada Baja", 60);
+final Ataque Aranazo= Ataque ("Fight","Arañazo", 40);
+final Ataque golpesFuria= Ataque ("Fight","Golpe Furia", 50);
+final Ataque golpeKarate= Ataque ("Fight","Golpe Karate", 50);
+final Ataque movimientoSismico= Ataque ("Fight","Movimiento Sismico", 80);
+final Ataque Sumision= Ataque ("Fight","Sumision", 80);
+final Ataque patadaSalto= Ataque ("Fight","Patada Salto", 100);
+final Ataque patadaGiro= Ataque ("Fight","Patada Giro", 60);
+
+//Ice
+final Ataque punoHielo= Ataque ("Ice","Puño Hielo", 75);
+final Ataque besoAmoroso= Ataque ("Ice","Beso Amoroso",15);//mayor probabilidad estado
+final Ataque dobleBofeton= Ataque ("Ice","Doble Bofeton", 65);
+final Ataque rayoHielo= Ataque ("Ice","Rayo Hielo", 90);
+final Ataque canto= Ataque ("Ice","Canto", 20);//mayor probabilidad estado
+final Ataque neblina= Ataque ("Ice","Neblina", 40);
+final Ataque rayoAurora= Ataque ("Ice","Rayo Aurora", 65);
+final Ataque descanso= Ataque ("Ice","Descanso", 20);//mayor probabilidad estado
+final Ataque derribo= Ataque ("Ice","Derribo", 90);
 
 
 //Grass
-
-
-//Ice
 
 
 //electric
