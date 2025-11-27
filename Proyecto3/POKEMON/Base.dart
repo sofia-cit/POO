@@ -1,5 +1,5 @@
 import 'dart:math';
-//Mario
+// Mario
 
 abstract class Combate {
   void atacar(Pokemon objetivo, Ataque movimiento);
@@ -13,8 +13,10 @@ abstract class Pokemon implements Combate {
   double vida;
   double vidaMax;
   int nivel;
+  int velocidad; // CORRECCIÓN, no estaba esta parte para determinar el turno
 
-  Pokemon(this.tipo, this.nombre, num vidaInput, this.nivel)
+  // CORRECCIÓN, actualizo el constructor para recibir velocidad
+  Pokemon(this.tipo, this.nombre, num vidaInput, this.nivel, this.velocidad)
       : vida = vidaInput.toDouble(),
         vidaMax = vidaInput.toDouble();
 
@@ -221,8 +223,9 @@ class PokemonBatalla extends Pokemon {
   EstadoCondicion estadoActual = EstadoCondicion.normal;
   List<Ataque> misAtaques;
 
-  PokemonBatalla(String tipo, String nombre, num vidaInput, int nivel, this.misAtaques)
-      : super(tipo, nombre, vidaInput, nivel);
+  // agrego también velocidad al constructor y a la llamada a super
+  PokemonBatalla(String tipo, String nombre, num vidaInput, int nivel,int velocidad, this.misAtaques)
+      : super(tipo, nombre, vidaInput, nivel, velocidad);
 
   @override
   void atacar(Pokemon objetivo, Ataque movimiento) {

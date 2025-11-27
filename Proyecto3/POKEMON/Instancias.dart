@@ -1,4 +1,4 @@
-import '../POKEMON/base.dart';
+import 'Base.dart'; 
 //lalo
 
 // DEFINICION DE ATAQUES
@@ -129,15 +129,15 @@ final Ataque voltiocambio = Ataque("Electric", "Voltiocambio", 70);
 final Ataque electrocanon = Ataque("Electric", "Electrocañón", 120);
 
 //Water
-final Ataque hidrobomba = Ataque("Agua", "Hidrobomba", 110);
-final Ataque surf = Ataque("Agua", "Surf", 90);
-final Ataque pistolaAgua = Ataque("Agua", "Pistola Agua", 40);
+final Ataque hidrobomba = Ataque("Water", "Hidrobomba", 110);
+final Ataque surf = Ataque("Water", "Surf", 90);
+final Ataque pistolaAgua = Ataque("Water", "Pistola Agua", 40);
 // Añadidos para cubrir necesidades de los pokemones:
-final Ataque burbuja = Ataque("Agua", "Burbuja", 40);
-final Ataque acuaCola = Ataque("Agua", "Acua Cola", 90);
-final Ataque hidropulso = Ataque("Agua", "Hidropulso", 60);
-final Ataque rayoBurbuja = Ataque("Agua", "Rayo Burbuja", 65);
-final Ataque escaldar = Ataque("Agua", "Escaldar", 80);
+final Ataque burbuja = Ataque("Water", "Burbuja", 40);
+final Ataque acuaCola = Ataque("Water", "Acua Cola", 90);
+final Ataque hidropulso = Ataque("Water", "Hidropulso", 60);
+final Ataque rayoBurbuja = Ataque("Water", "Rayo Burbuja", 65);
+final Ataque escaldar = Ataque("Water", "Escaldar", 80);
 
 
 // --- Fire ---
@@ -164,96 +164,98 @@ final Ataque frustracion = Ataque("Normal", "Frustración", 60);
 
 
 // DEFINICION DE POKEMONES
+// CORRECCIÓN: Se añade el quinto argumento (Velocidad) a todos los constructores de PokemonBatalla.
+
 //Steel
-final PokemonBatalla lairon = PokemonBatalla("Steel", "Lairon", 120, 40, [colaFerrea, garraMetal, cuerpoPesado]);
-final PokemonBatalla aggron = PokemonBatalla("Steel", "Aggron", 160, 30, [cuerpoPesado, colaFerrea]);
-final PokemonBatalla aron = PokemonBatalla("Steel", "Aron", 100, 30, [cabezaDeHierro, garraMetal]);
+final PokemonBatalla lairon = PokemonBatalla("Steel", "Lairon", 120, 40, 50, [colaFerrea, garraMetal, cuerpoPesado]);
+final PokemonBatalla aggron = PokemonBatalla("Steel", "Aggron", 160, 30, 70, [cuerpoPesado, colaFerrea]);
+final PokemonBatalla aron = PokemonBatalla("Steel", "Aron", 100, 30, 30, [cabezaDeHierro, garraMetal]);
 
 //Dark
-final PokemonBatalla zorua = PokemonBatalla("Dark", "Zorua", 90, 65, [finta, pulsoUmbrio, juegoSucio]);
-final PokemonBatalla zweilous = PokemonBatalla("Dark", "Zweilous", 130, 50, [mordisco, pulsoUmbrio, tajoUmbrio]);
-final PokemonBatalla zarude = PokemonBatalla("Dark", "Zarude", 150, 80, [mordisco, pulsoUmbrio, tajoUmbrio]);
+final PokemonBatalla zorua = PokemonBatalla("Dark", "Zorua", 90, 65, 80, [finta, pulsoUmbrio, juegoSucio]);
+final PokemonBatalla zweilous = PokemonBatalla("Dark", "Zweilous", 130, 50, 60, [mordisco, pulsoUmbrio, tajoUmbrio]);
+final PokemonBatalla zarude = PokemonBatalla("Dark", "Zarude", 150, 80, 105, [mordisco, pulsoUmbrio, tajoUmbrio]);
 
 //Dragon
-final PokemonBatalla flygon = PokemonBatalla("Dragon", "Flygon", 140, 80, [colaDragon, garraDragon]);
-final PokemonBatalla rayquaza = PokemonBatalla("Dragon", "Rayquaza", 180, 95, [colaDragon, enfado, vastoImpacto]);
-final PokemonBatalla dragapult = PokemonBatalla("Dragon", "Dragapult", 130, 100, [vastoImpacto, enfado, colaDragon]);
+final PokemonBatalla flygon = PokemonBatalla("Dragon", "Flygon", 140, 80, 100, [colaDragon, garraDragon]);
+final PokemonBatalla rayquaza = PokemonBatalla("Dragon", "Rayquaza", 180, 95, 95, [colaDragon, enfado, vastoImpacto]);
+final PokemonBatalla dragapult = PokemonBatalla("Dragon", "Dragapult", 130, 100, 142, [vastoImpacto, enfado, colaDragon]); // Alta Velocidad
 
 //Ghost
-final PokemonBatalla gengar = PokemonBatalla("Ghost", "Gengar", 120, 90, [bolaSombra, puasToxicas]);
-final PokemonBatalla aegislash = PokemonBatalla("Ghost", "Aegislash", 140, 50, [tajoUmbrio, sombraVil, escudoReal]);
-final PokemonBatalla chandelure = PokemonBatalla("Ghost", "Chandelure", 125, 60, [fuegoFatuo, infortunio, rayoConfuso]);
+final PokemonBatalla gengar = PokemonBatalla("Ghost", "Gengar", 120, 90, 110, [bolaSombra, puasToxicas]);
+final PokemonBatalla aegislash = PokemonBatalla("Ghost", "Aegislash", 140, 50, 60, [tajoUmbrio, sombraVil, escudoReal]);
+final PokemonBatalla chandelure = PokemonBatalla("Ghost", "Chandelure", 125, 60, 80, [fuegoFatuo, infortunio, rayoConfuso]);
 
 //Rock
-final PokemonBatalla tyranitar = PokemonBatalla("Rock", "Tyranitar", 170, 50, [rocaAfilada, triturar, danzaDragon]);
-final PokemonBatalla golemRock = PokemonBatalla("Rock", "Golem", 140, 40, [trampaRocas, explosion, avalancha]);
-final PokemonBatalla rhyperior = PokemonBatalla("Rock", "Rhyperior", 160, 35, [romperrocas, cuernoTaladro, cabezazoRoca]);
+final PokemonBatalla tyranitar = PokemonBatalla("Rock", "Tyranitar", 170, 50, 61, [rocaAfilada, triturar, danzaDragon]);
+final PokemonBatalla golemRock = PokemonBatalla("Rock", "Golem", 140, 40, 45, [trampaRocas, explosion, avalancha]);
+final PokemonBatalla rhyperior = PokemonBatalla("Rock", "Rhyperior", 160, 35, 40, [romperrocas, cuernoTaladro, cabezazoRoca]);
 
 //Bug
-final PokemonBatalla scizor = PokemonBatalla("Bug", "Scizor", 130, 60, [idaYVuelta, punoBala, danzaEspada]);
-final PokemonBatalla volcarona = PokemonBatalla("Bug", "Volcarona", 140, 80, [zumbido, danzaAleteo, vendavalB]);
-final PokemonBatalla heracross = PokemonBatalla("Bug", "Heracross", 135, 70, [tijeraX, megacuerno, bocajarro]);
+final PokemonBatalla scizor = PokemonBatalla("Bug", "Scizor", 130, 60, 65, [idaYVuelta, punoBala, danzaEspada]);
+final PokemonBatalla volcarona = PokemonBatalla("Bug", "Volcarona", 140, 80, 100, [zumbido, danzaAleteo, vendavalB]);
+final PokemonBatalla heracross = PokemonBatalla("Bug", "Heracross", 135, 70, 85, [tijeraX, megacuerno, bocajarro]);
 
 //Psycho
-final PokemonBatalla alakazam = PokemonBatalla("Psycho", "Alakazam", 110, 95, [psiquico, confusion, psicoCorte]);
-final PokemonBatalla mewtwo = PokemonBatalla("Psycho", "Mewtwo", 180, 100, [ondaMental, confusion, psicoCorte]);
-final PokemonBatalla baltoy = PokemonBatalla("Psycho", "Baltoy", 90, 45, [confusion, psicorrayo, paranormal]);
+final PokemonBatalla alakazam = PokemonBatalla("Psycho", "Alakazam", 110, 95, 120, [psiquico, confusion, psicoCorte]);
+final PokemonBatalla mewtwo = PokemonBatalla("Psycho", "Mewtwo", 180, 100, 130, [ondaMental, confusion, psicoCorte]);
+final PokemonBatalla baltoy = PokemonBatalla("Psycho", "Baltoy", 90, 45, 50, [confusion, psicorrayo, paranormal]);
 
 //Flying
-final PokemonBatalla staraptor = PokemonBatalla("Flying", "Staraptor", 130, 85, [tornado, ataqueAla, pajaroOsado]);
-final PokemonBatalla yveltal = PokemonBatalla("Flying", "Yveltal", 170, 90, [alaMortifera, vendavalF, tornado]);
-final PokemonBatalla pidgeot = PokemonBatalla("Flying", "Pidgeot", 140, 80, [aireAfilado, pajaroOsado, danzaPluma]);
+final PokemonBatalla staraptor = PokemonBatalla("Flying", "Staraptor", 130, 85, 100, [tornado, ataqueAla, pajaroOsado]);
+final PokemonBatalla yveltal = PokemonBatalla("Flying", "Yveltal", 170, 90, 99, [alaMortifera, vendavalF, tornado]);
+final PokemonBatalla pidgeot = PokemonBatalla("Flying", "Pidgeot", 140, 80, 101, [aireAfilado, pajaroOsado, danzaPluma]);
 
 //Ground
-final PokemonBatalla diglett = PokemonBatalla("Ground", "Diglett", 80, 70, [bofetonLodo, disparoLodo, bombaFango]);
-final PokemonBatalla golemGround = PokemonBatalla("Ground", "Golem (Tierra)", 140, 40, [terremoto, disparoLodo, bofetonLodo]);
-final PokemonBatalla sandslash = PokemonBatalla("Ground", "Sandslash", 125, 60, [arenasArdientes, ataqueArena, terratemblor]);
+final PokemonBatalla diglett = PokemonBatalla("Ground", "Diglett", 80, 70, 95, [bofetonLodo, disparoLodo, bombaFango]);
+final PokemonBatalla golemGround = PokemonBatalla("Ground", "Golem (Tierra)", 140, 40, 45, [terremoto, disparoLodo, bofetonLodo]);
+final PokemonBatalla sandslash = PokemonBatalla("Ground", "Sandslash", 125, 60, 65, [arenasArdientes, ataqueArena, terratemblor]);
 
 //Poison
-final PokemonBatalla ekans = PokemonBatalla("Poison", "Ekans", 90, 50, [picotazoVenenoso, deslumbrar, acido]);
-final PokemonBatalla nidorina = PokemonBatalla("Poison", "Nidorina", 120, 55, [doblePatada, picotazoVenenoso, mordisco]);
-final PokemonBatalla seviper = PokemonBatalla("Poison", "Seviper", 130, 60, [colaVeneno, niebla, colmilloVenenoso]);
+final PokemonBatalla ekans = PokemonBatalla("Poison", "Ekans", 90, 50, 55, [picotazoVenenoso, deslumbrar, acido]);
+final PokemonBatalla nidorina = PokemonBatalla("Poison", "Nidorina", 120, 55, 56, [doblePatada, picotazoVenenoso, mordisco]);
+final PokemonBatalla seviper = PokemonBatalla("Poison", "Seviper", 130, 60, 65, [colaVeneno, niebla, colmilloVenenoso]);
 
 //Fight
-final PokemonBatalla mankey = PokemonBatalla("Fight", "Mankey", 100, 70, [patadaBaja, aranazo, golpesFuria]);
-final PokemonBatalla machop = PokemonBatalla("Fight", "Machop", 110, 45, [golpeKarate, movimientoSismico, sumision]);
-final PokemonBatalla hitmonlee = PokemonBatalla("Fight", "Hitmonlee", 120, 75, [doblePatada, patadaSalto, patadaGiro]);
+final PokemonBatalla mankey = PokemonBatalla("Fight", "Mankey", 100, 70, 70, [patadaBaja, aranazo, golpesFuria]);
+final PokemonBatalla machop = PokemonBatalla("Fight", "Machop", 110, 45, 35, [golpeKarate, movimientoSismico, sumision]);
+final PokemonBatalla hitmonlee = PokemonBatalla("Fight", "Hitmonlee", 120, 75, 87, [doblePatada, patadaSalto, patadaGiro]);
 
 //Ice
-final PokemonBatalla jynx = PokemonBatalla("Ice", "Jynx", 110, 70, [punoHielo, besoAmoroso, dobleBofeton]);
-final PokemonBatalla lapras = PokemonBatalla("Ice", "Lapras", 180, 50, [rayoHielo, canto, neblina]);
-final PokemonBatalla dewgong = PokemonBatalla("Ice", "Dewgong", 150, 60, [rayoAurora, descanso, derribo]);
+final PokemonBatalla jynx = PokemonBatalla("Ice", "Jynx", 110, 70, 95, [punoHielo, besoAmoroso, dobleBofeton]);
+final PokemonBatalla lapras = PokemonBatalla("Ice", "Lapras", 180, 50, 60, [rayoHielo, canto, neblina]);
+final PokemonBatalla dewgong = PokemonBatalla("Ice", "Dewgong", 150, 60, 70, [rayoAurora, descanso, derribo]);
 
 //Grass
-final PokemonBatalla bulbasaur = PokemonBatalla("Grass", "Bulbasaur", 110, 45, [latigoCepa, drenadoras, hojaAfilada]);
-final PokemonBatalla oddish = PokemonBatalla("Grass", "Oddish", 90, 40, [absorber, polvoVeneno, danzaPetalo]);
-final PokemonBatalla tangela = PokemonBatalla("Grass", "Tangela", 120, 55, [constriccion, paralizador, latigazo]);
+final PokemonBatalla bulbasaur = PokemonBatalla("Grass", "Bulbasaur", 110, 45, 45, [latigoCepa, drenadoras, hojaAfilada]);
+final PokemonBatalla oddish = PokemonBatalla("Grass", "Oddish", 90, 40, 30, [absorber, polvoVeneno, danzaPetalo]);
+final PokemonBatalla tangela = PokemonBatalla("Grass", "Tangela", 120, 55, 60, [constriccion, paralizador, latigazo]);
 
 //Electric
-final PokemonBatalla pikachu = PokemonBatalla("Electric", "Pikachu", 90, 90, [impactrueno, voltioCruel, chispazo]);
-final PokemonBatalla magnemite = PokemonBatalla("Electric", "Magnemite", 80, 45, [impactrueno, chispazo, rayo]);
-final PokemonBatalla jolteon = PokemonBatalla("Electric", "Jolteon", 130, 100, [voltiocambio, impactrueno, electrocanon]);
+final PokemonBatalla pikachu = PokemonBatalla("Electric", "Pikachu", 90, 90, 90, [impactrueno, voltioCruel, chispazo]);
+final PokemonBatalla magnemite = PokemonBatalla("Electric", "Magnemite", 80, 45, 45, [impactrueno, chispazo, rayo]);
+final PokemonBatalla jolteon = PokemonBatalla("Electric", "Jolteon", 130, 100, 130, [voltiocambio, impactrueno, electrocanon]);
 
 //Water
-final PokemonBatalla squirtle = PokemonBatalla("Water", "Squirtle", 110, 43, [burbuja, acuaCola, hidropulso]);
-final PokemonBatalla poliwhirl = PokemonBatalla("Water", "Poliwhirl", 120, 60, [burbuja, rayoBurbuja, escaldar]);
-final PokemonBatalla vaporeon = PokemonBatalla("Water", "Vaporeon", 180, 65, [acuaCola, hidropulso, escaldar]);
-final PokemonBatalla blastoise = PokemonBatalla("Agua", "Blastoise", 170, 50, [hidrobomba, pistolaAgua]);
-final PokemonBatalla feraligatr = PokemonBatalla("Agua", "Feraligatr", 165, 50, [surf, pistolaAgua]);
-final PokemonBatalla swampert = PokemonBatalla("Agua", "Swampert", 180, 50, [hidrobomba, surf]);
+final PokemonBatalla squirtle = PokemonBatalla("Water", "Squirtle", 110, 43, 43, [burbuja, acuaCola, hidropulso]);
+final PokemonBatalla poliwhirl = PokemonBatalla("Water", "Poliwhirl", 120, 60, 70, [burbuja, rayoBurbuja, escaldar]);
+final PokemonBatalla vaporeon = PokemonBatalla("Water", "Vaporeon", 180, 65, 65, [acuaCola, hidropulso, escaldar]);
+final PokemonBatalla blastoise = PokemonBatalla("Water", "Blastoise", 170, 50, 78, [hidrobomba, pistolaAgua]);
+final PokemonBatalla feraligatr = PokemonBatalla("Water", "Feraligatr", 165, 50, 78, [surf, pistolaAgua]);
+final PokemonBatalla swampert = PokemonBatalla("Water", "Swampert", 180, 50, 60, [hidrobomba, surf]);
 
 //Fire
-final PokemonBatalla charmander = PokemonBatalla("Fire", "Charmander", 90, 60, [ascuas, lanzallamas, nitrocarga]);
-final PokemonBatalla arcanine = PokemonBatalla("Fire", "Arcanine", 160, 85, [lanzallamas, llamarada, colmilloIgneo]);
-final PokemonBatalla rapidash = PokemonBatalla("Fire", "Rapidash", 140, 95, [llamarada, nitrocarga, calcinacion]);
-final PokemonBatalla charizard = PokemonBatalla("Fuego", "Charizard", 160, 50, [lanzallamas, ascuas]);
-final PokemonBatalla typhlosion = PokemonBatalla("Fuego", "Typhlosion", 155, 50, [lanzallamas, giroFuego]);
-final PokemonBatalla blaziken = PokemonBatalla("Fuego", "Blaziken", 150, 50, [giroFuego, ascuas]);
+final PokemonBatalla charmander = PokemonBatalla("Fire", "Charmander", 90, 60, 65, [ascuas, lanzallamas, nitrocarga]);
+final PokemonBatalla arcanine = PokemonBatalla("Fire", "Arcanine", 160, 85, 95, [lanzallamas, llamarada, colmilloIgneo]);
+final PokemonBatalla rapidash = PokemonBatalla("Fire", "Rapidash", 140, 95, 105, [llamarada, nitrocarga, calcinacion]);
+final PokemonBatalla charizard = PokemonBatalla("Fire", "Charizard", 160, 50, 100, [lanzallamas, ascuas]);
+final PokemonBatalla typhlosion = PokemonBatalla("Fire", "Typhlosion", 155, 50, 100, [lanzallamas, giroFuego]);
+final PokemonBatalla blaziken = PokemonBatalla("Fire", "Blaziken", 150, 50, 80, [giroFuego, ascuas]);
 
 //Normal
-final PokemonBatalla rattata = PokemonBatalla("Normal", "Rattata", 80, 72, [ataqueRapido, placaje, hipercolmillo]);
-final PokemonBatalla meowth = PokemonBatalla("Normal", "Meowth", 90, 90, [aranazo, golpeCuerpo, frustracion]);
-final PokemonBatalla evee = PokemonBatalla("Normal", "Eevee", 110, 55, [ataqueRapido, placaje, golpeCuerpo]);
+final PokemonBatalla rattata = PokemonBatalla("Normal", "Rattata", 80, 72, 72, [ataqueRapido, placaje, hipercolmillo]);
+final PokemonBatalla meowth = PokemonBatalla("Normal", "Meowth", 90, 90, 90, [aranazo, golpeCuerpo, frustracion]);
+final PokemonBatalla evee = PokemonBatalla("Normal", "Eevee", 110, 55, 55, [ataqueRapido, placaje, golpeCuerpo]);
 
 
 
