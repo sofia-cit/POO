@@ -22,7 +22,7 @@ class AccionUsarItem extends AccionTurno {
 
 class Batalla {
   final PokemonBatalla pokemonUsuario;
-  final PokemonBatalla pokemonRival;
+  final PokemonBatalla pokemonRival; 
   List<Item> itemsUsuario; // mochila del usuario
   List<Item> itemsRival;   // mochila del rival 
   bool _enCurso = true;
