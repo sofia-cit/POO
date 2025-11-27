@@ -1,4 +1,4 @@
-import '../avance/base.dart';
+import '../POKEMON/base.dart';
 //lalo
 
 // DEFINICION DE ATAQUES
@@ -267,7 +267,7 @@ class Pocion extends Item {
       : super(nombre, "Salud", cantidad, "Recupera $recuperacion HP");
 
   @override
-  void usar(PokemonBatalla objetivo) {
+  void usar(Pokemon objetivo) {
     if (cantidad <= 0) {
       print("No quedan $nombreItem");
       return;
@@ -288,9 +288,13 @@ class CuraEstado extends Item {
       : super(nombre, "Medicina", cantidad, desc);
 
   @override
-  void usar(PokemonBatalla objetivo) {
+  void usar(Pokemon objetivo) {
     if (cantidad <= 0) {
       print("No quedan $nombreItem");
+      return;
+    }
+    if (objetivo is! PokemonBatalla) {
+      print("Error: $nombreItem solo puede usarse en un Pokémon en batalla.");
       return;
     }
 
