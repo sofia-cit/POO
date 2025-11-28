@@ -32,7 +32,7 @@ class Batalla {
   bool _enCurso = true;
 
   //ahora recibe la lista general de Pokémon y los items 
-  Batalla(this._pokedexGeneral, this.itemsUsuario, List<Item> itemsRivalBase) {
+  Batalla (this._pokedexGeneral, this.itemsUsuario, List<Item> itemsRivalBase) {
       _itemsRivalActuales = List<Item>.from(itemsRivalBase.map((item) {
           if (item is Pocion) return Pocion(item.nombreItem, item.cantidad, item.recuperacion);
           if (item is CuraEstado) return CuraEstado(item.nombreItem, item.cantidad, item.descripcion, item.curaQue);

@@ -269,19 +269,32 @@ class Pocion extends Item {
       : super(nombre, "Salud", cantidad, "Recupera $recuperacion HP");
 
   @override
-  void usar(Pokemon objetivo) {
+  void usar(PokemonBatalla objetivo) {
     if (cantidad <= 0) {
       print("No quedan $nombreItem");
       return;
     }
+    
+    if (objetivo.vida == objetivo.vidaMax) {
+        print("${objetivo.nombre} ya tiene la vida al máximo. $nombreItem no se usó.");
+        return;
+    }
 
+    // Calcula HP curado y aplica la curación
+    double vidaAntes = objetivo.vida;
     objetivo.vida += recuperacion;
     if (objetivo.vida > objetivo.vidaMax) objetivo.vida = objetivo.vidaMax;
-    cantidad--;
+    double hpCurado = objetivo.vida - vidaAntes;
 
-    print("Usaste $nombreItem en ${objetivo.nombre}. Vida actual: ${objetivo.vida}");
+    // Solo se gasta si realmente curó algo
+    if (hpCurado > 0) { 
+        cantidad--;
+        print("Usaste $nombreItem en ${objetivo.nombre}. Curó ${hpCurado.toStringAsFixed(0)} HP.");
+        print("Vida actual: ${objetivo.vida.toStringAsFixed(0)}/${objetivo.vidaMax.toStringAsFixed(0)}");
+    }
   }
-}
+  }
+
 
 class CuraEstado extends Item {
   List<EstadoCondicion> curaQue;
@@ -290,15 +303,12 @@ class CuraEstado extends Item {
       : super(nombre, "Medicina", cantidad, desc);
 
   @override
-  void usar(Pokemon objetivo) {
+  void usar(PokemonBatalla objetivo) {
     if (cantidad <= 0) {
       print("No quedan $nombreItem");
       return;
     }
-    if (objetivo is! PokemonBatalla) {
-      print("Error: $nombreItem solo puede usarse en un Pokémon en batalla.");
-      return;
-    }
+    
 
     if (curaQue.contains(objetivo.estadoActual)) {
       objetivo.estadoActual = EstadoCondicion.normal;

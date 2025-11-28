@@ -235,26 +235,37 @@ class PokemonBatalla extends Pokemon {
     }
 
     if (estadoActual == EstadoCondicion.paralizado) {
-      if (Random().nextInt(5) == 0) {
+      if (Random().nextInt(5) == 0) {//20% de probabilidad de no atacar
         print("¡$nombre está PARALIZADO y no puede atacar!");
         return;
       }
     }
-
-    Efectividad calc = Efectividad();
+     Efectividad calc = Efectividad();
     movimiento.efectivo = calc.calcularEfectividad(movimiento.tipoAtaque, objetivo.tipo);
+   int danioCalculado = movimiento.calcularDanio();
 
-    int danioFinal = movimiento.calcularDanio();
+    double modificadorDanio = 1.0;
+    if (estadoActual == EstadoCondicion.quemado) {
+      modificadorDanio = 0.5; 
+      print("El ataque de $nombre se reduce a la mitad por la quemadura.");
+    }
+    int danioFinal = (danioCalculado * modificadorDanio).toInt();
     objetivo.recibirDanio(danioFinal);
 
+    
+
+   
+
     print("\n$nombre usó ${movimiento.nombreAtaque}!");
+    if (movimiento.efectivo == 0) print("¡No tuvo efecto!");
     if (movimiento.efectivo > 1) print("¡Es muy eficaz! (x${movimiento.efectivo})");
     if (movimiento.efectivo < 1) print("No es muy eficaz... (x${movimiento.efectivo})");
-
+    
     print("Daño hecho: $danioFinal");
     print("Vida de ${objetivo.nombre}: ${objetivo.vida}/${objetivo.vidaMax}");
-  }
-
+    }
+  
+  
   void finDeTurno() {
     if (estadoActual == EstadoCondicion.quemado) {
       int d = (vidaMax * 0.06).toInt();
@@ -266,7 +277,16 @@ class PokemonBatalla extends Pokemon {
       recibirDanio(d);
       print("$nombre recibe daño por veneno (-$d HP).");
     }
+    if(estadoActual == EstadoCondicion.congelado){
+      //posibilidad de descongelarse
+      if(Random().nextInt(4)==0){//25% de probabilidad
+        estadoActual = EstadoCondicion.normal;
+        print("$nombre se ha DESCONGELADO.");
+      }
+    }
   }
+  
+    
 }
 
 //clase item
@@ -278,5 +298,82 @@ abstract class Item {
 
   Item(this.nombreItem, this.tipoItem, this.cantidad, this.descripcion);
 
-  void usar(Pokemon objetivo);
+  void usar(PokemonBatalla objetivo);
+}
+
+// Clase base para curar HP
+class Pocion extends Item {
+  int cantidadCuracion;
+
+  Pocion(this.cantidadCuracion, String nombre)
+      : super(nombre, "Curación", 1, "Restaura $cantidadCuracion HP al objetivo.");
+
+  @override
+  void usar(PokemonBatalla objetivo) {
+    if (objetivo.vida <= 0) {
+      print("${objetivo.nombre} está fuera de combate y no puede usar ${nombreItem}.");
+      return;
+    }
+    
+    // Calcula la curación sin exceder la vida máxima
+    double vidaAntes = objetivo.vida;
+    double nuevaVida = vidaAntes + cantidadCuracion;
+    
+    if (nuevaVida > objetivo.vidaMax) {
+      nuevaVida = objetivo.vidaMax;
+    }
+
+    objetivo.vida = nuevaVida;
+    double hpCurado = nuevaVida - vidaAntes;
+
+    print("${objetivo.nombre} usó ${nombreItem} y recuperó ${hpCurado.toStringAsFixed(0)} HP.");
+    print("Vida actual: ${objetivo.vida.toStringAsFixed(0)}/${objetivo.vidaMax.toStringAsFixed(0)}");
+  }
+}
+
+class PocionSimple extends Pocion {
+  PocionSimple() : super(20, "Poción"); // Cura 20 HP
+}
+class SuperPocion extends Pocion {
+  SuperPocion() : super(50, "Superpoción"); // Cura 50 HP
+}
+class Hiperpocion extends Pocion {
+  Hiperpocion() : super(100, "Hiperpoción"); // Cura 100 HP
+}
+
+// Clase base para curar estados
+// Clase base para curar estados específicos
+abstract class CuradorEstado extends Item {
+  EstadoCondicion estadoACurar;
+
+  CuradorEstado(String nombre, String descripcion, this.estadoACurar)
+      : super(nombre, "Estado", 1, descripcion);
+
+  @override
+  void usar(PokemonBatalla objetivo) {
+    if (objetivo.estadoActual == estadoACurar) {
+      objetivo.estadoActual = EstadoCondicion.normal;
+      print("🟢 El ${nombreItem} curó el estado ${estadoACurar.name.toUpperCase()} de ${objetivo.nombre}.");
+    } else {
+      print("${objetivo.nombre} no está sufriendo el estado ${estadoACurar.name.toUpperCase()}.");
+    }
+  }
+}
+
+class Antidoto extends CuradorEstado {
+  Antidoto()
+      : super("Antídoto", "Cura el estado de Envenenado.", EstadoCondicion.envenenado);
+}
+
+class Antiquemar extends CuradorEstado {
+  Antiquemar()
+      : super("Antiquemar", "Cura el estado de Quemado.", EstadoCondicion.quemado);
+}
+class Despertar extends CuradorEstado {
+  Despertar()
+      : super("Despertar", "Cura el estado de Congelado.", EstadoCondicion.congelado);
+}
+class Antiparalisis extends CuradorEstado {
+  Antiparalisis()
+      : super("Antiparaliz", "Cura el estado de Paralizado.", EstadoCondicion.paralizado);
 }

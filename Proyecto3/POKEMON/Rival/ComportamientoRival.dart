@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'Base.dart';
-import 'Instancias.dart';
+import '../Base.dart';
+import '../Instancias.dart';
 import 'SistemaBatalla2.dart';
 
 class ComportamientoRival {
