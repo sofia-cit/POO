@@ -2,8 +2,8 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'Base.dart'; 
-import 'Instancias.dart';
+import '../Base.dart';
+import '../Instancias.dart';
 import 'ComportamientoRival.dart'; 
 
 abstract class AccionTurno {}
