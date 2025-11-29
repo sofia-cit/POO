@@ -1,9 +1,8 @@
-//MODIFICACIONES EN LA PARTE DE ROMAN
 import 'dart:io';
 import 'dart:math';
 
 import '../Base.dart';
-import '../Instancias.dart';
+//import '../Instancias.dart';
 import 'ComportamientoRival.dart'; 
 
 abstract class AccionTurno {}
@@ -19,6 +18,7 @@ class AccionUsarItem extends AccionTurno {
 }
 
 class Batalla {
+  final Random _rand = Random();
   //cambios en los atributos y la eleccion
   final List<PokemonBatalla> _pokedexGeneral; 
   final ComportamientoRival _iaRival = ComportamientoRival(); 
@@ -28,25 +28,21 @@ class Batalla {
   late PokemonBatalla _rival;
   
   List<Item> itemsUsuario;      //mochila del usuario
-  List<Item> _itemsRivalActuales; //mochila del rival
+  late List<Item> _itemsRivalActuales; //mochila del rival - marcado como late
   bool _enCurso = true;
 
   //ahora recibe la lista general de Pokémon y los items 
-  Batalla (this._pokedexGeneral, this.itemsUsuario, List<Item> itemsRivalBase) {
-      _itemsRivalActuales = List<Item>.from(itemsRivalBase.map((item) {
-          if (item is Pocion) return Pocion(item.nombreItem, item.cantidad, item.recuperacion);
-          if (item is CuraEstado) return CuraEstado(item.nombreItem, item.cantidad, item.descripcion, item.curaQue);
-          return item;
-      }));
+  Batalla(this._pokedexGeneral, this.itemsUsuario, List<Item> itemsRivalBase) {
+      _itemsRivalActuales = List<Item>.from(itemsRivalBase);  
 
       if (_pokedexGeneral.isEmpty) {
         throw Exception("Error de Inicialización: La Pokedex no debe estar vacía.");
       }
   }
+  
   bool get enCurso => _enCurso && _jugador.vida > 0 && _rival.vida > 0;
 
-
-  //AÑADIDO:método para que el usuario elija su Pokémon
+  //método para que el usuario elija su Pokémon
   void _seleccionarPersonaje() {
     print("\n--- SELECCIÓN DE PERSONAJE ---");
     for (int i = 0; i < _pokedexGeneral.length; i++) {
@@ -65,8 +61,7 @@ class Batalla {
     print("¡Has elegido a: ${_jugador.nombre}!");
   }
 
-
-  //AÑADIDO:método para que el usuario elija el rival 
+  //método para que el usuario elija el rival 
   void _seleccionarRival() {
     print("\n--- SELECCIÓN DE RIVAL ---");
     //para que el rival no sea el mismo que el jugador
@@ -89,32 +84,6 @@ class Batalla {
     print("¡Tu rival ha elegido a: ${_rival.nombre}!");
   }
 
-  AccionTurno _convertirDecisionRival(String decision) {
-    if (decision == "ATACAR") {
-      return AccionAtacar(_iaRival.elegirAtaqueAleatorio(_rival));
-    } 
-    else if (decision == "USAR_ITEM_POCION") {
-      Item? itemBuscado = _itemsRivalActuales.firstWhere(
-        (item) => item is Pocion && item.cantidad > 0,
-        orElse: () => null,
-      );
-      if (itemBuscado is Pocion) {
-        return AccionUsarItem(itemBuscado, _rival);
-      }
-    }
-    else if (decision == "USAR_ITEM_ESTADO") {
-      Item? itemBuscado = _itemsRivalActuales.firstWhere(
-        (item) => item is CuraEstado && item.cantidad > 0 && 
-                  (item as CuraEstado).curaQue.contains(_rival.estadoActual),
-        orElse: () => null,
-      );
-      if (itemBuscado is CuraEstado) {
-        return AccionUsarItem(itemBuscado, _rival);
-      }
-    }
-    return AccionAtacar(_rival.misAtaques[0]);
-  }
-
   void _ejecutarAccion(PokemonBatalla atacante, AccionTurno accion) {
     if (accion is AccionAtacar) {
       PokemonBatalla objetivo = (atacante == _jugador) ? _rival : _jugador;
@@ -124,32 +93,84 @@ class Batalla {
     }
   }
 
-
-  //determina el orden de acción y las ejecuta (referencias actualizadas)
-  void determinarTurno(AccionTurno accionUsuario, AccionTurno accionRival) {
-      PokemonBatalla primero = _jugador.velocidad >= _rival.velocidad ? _jugador : _rival;
-      PokemonBatalla segundo = _jugador.velocidad >= _rival.velocidad ? _rival : _jugador;
-      AccionTurno accionPrimero = (primero == _jugador) ? accionUsuario : accionRival;
-      AccionTurno accionSegundo = (segundo == _jugador) ? accionUsuario : accionRival;
-      
-      print("\n--- INICIO TURNO (Primero: ${primero.nombre}, Segundo: ${segundo.nombre}) ---");
-
-      print("-> Acción de ${primero.nombre}:");
-      _ejecutarAccion(primero, accionPrimero);
-      
-      if (_jugador.vida <= 0 || _rival.vida <= 0) { finBatalla(); return; }
-
-      if (segundo.vida > 0) {
-        print("\n-> Acción de ${segundo.nombre}:");
-        _ejecutarAccion(segundo, accionSegundo);
+  AccionTurno _convertirDecisionRival(String decision) {
+    if (decision == "ATACAR") {
+      return AccionAtacar(_iaRival.elegirAtaqueAleatorio(_rival));
+    } 
+    else if (decision == "USAR_ITEM_POCION") {
+      for (Item item in _itemsRivalActuales) {
+        if (item is Pocion && item.cantidad > 0) {
+          return AccionUsarItem(item, _rival);
+        }
       }
+    }
+    else if (decision == "USAR_ITEM_ESTADO") {
+      for (Item item in _itemsRivalActuales) {
+        if (item is CuradorEstado && item.cantidad > 0 && item.estadoACurar == _rival.estadoActual) {
+          return AccionUsarItem(item, _rival);
+        }
+      }
+    }
+    // Si no se encontró ningún item válido, atacar por defecto
+    return AccionAtacar(_rival.misAtaques[0]);
+  }
 
-      //daño Residual (usa _jugador y _rival)
-      print("\n--- Fase de Daño Residual ---\n");
-      if (_jugador.vida > 0) _jugador.finDeTurno(); 
-      if (_rival.vida > 0) _rival.finDeTurno();
+  //determina el orden de acción basado en la velocidad
+  void determinarTurno(AccionTurno accionUsuario, AccionTurno accionRival) {
+    double velocidadUsuario = _jugador.velocidad.toDouble();
+    double velocidadRival = _rival.velocidad.toDouble();
+    
+    if (_jugador.estadoActual == EstadoCondicion.paralizado) {
+      velocidadUsuario /= 2;
+    }
+    if (_rival.estadoActual == EstadoCondicion.paralizado) {
+      velocidadRival /= 2;
+    }
+    
+    PokemonBatalla primero;
+    PokemonBatalla segundo;
+    
+    if (velocidadUsuario > velocidadRival) {
+      primero = _jugador;
+      segundo = _rival;
+    } else if (velocidadRival > velocidadUsuario) {
+      primero = _rival;
+      segundo = _jugador;
+    } else {
+      // Empate - decidir aleatoriamente
+      if (_rand.nextBool()) {
+        primero = _jugador;
+        segundo = _rival;
+      } else {
+        primero = _rival;
+        segundo = _jugador;
+      }
+    }
+    
+    AccionTurno accionPrimero = (primero == _jugador) ? accionUsuario : accionRival;
+    AccionTurno accionSegundo = (segundo == _jugador) ? accionUsuario : accionRival;
+    
+    print("\n--- INICIO TURNO (Primero: ${primero.nombre}, Segundo: ${segundo.nombre}) ---");
 
-      finBatalla();
+    print("-> Acción de ${primero.nombre}:");
+    _ejecutarAccion(primero, accionPrimero);
+    
+    if (_jugador.vida <= 0 || _rival.vida <= 0) { 
+      finBatalla(); 
+      return; 
+    }
+
+    if (segundo.vida > 0) {
+      print("\n-> Acción de ${segundo.nombre}:");
+      _ejecutarAccion(segundo, accionSegundo);
+    }
+
+    //daño Residual (usa _jugador y _rival)
+    print("\n--- Fase de Daño Residual ---");
+    if (_jugador.vida > 0) _jugador.finDeTurno(); 
+    if (_rival.vida > 0) _rival.finDeTurno();
+
+    finBatalla();
   }
   
   void finBatalla() {
@@ -164,7 +185,7 @@ class Batalla {
     }
   }
 
-  //BUCLE PRINCIPAL (para que lo llame Cit)
+  //BUCLE PRINCIPA
   void iniciarBatallaLucha() {
     //1.Fase de Selección
     _seleccionarPersonaje();
@@ -174,7 +195,7 @@ class Batalla {
 
     while (enCurso) {
       
-      //2.Turno del Jugador (simulación de la parte5)
+      //2.Turno del Jugador
       print("\n=======================================================");
       print("TURNO DE ${_jugador.nombre} (HP: ${_jugador.vida.toStringAsFixed(0)}/${_jugador.vidaMax.toStringAsFixed(0)}, Estado: ${_jugador.estadoActual})");
       print("RIVAL: ${_rival.nombre} (HP: ${_rival.vida.toStringAsFixed(0)}/${_rival.vidaMax.toStringAsFixed(0)}, Estado: ${_rival.estadoActual})");

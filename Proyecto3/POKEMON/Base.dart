@@ -4,6 +4,7 @@ import 'dart:math';
 abstract class Combate {
   void atacar(Pokemon objetivo, Ataque movimiento);
   void mostrarAtaque();
+  void recibirDanio(int cantidad,int prob_estado);
 }
 
 //clase base pokemon
@@ -12,18 +13,16 @@ abstract class Pokemon implements Combate {
   String nombre;
   double vida;
   double vidaMax;
-  int nivel;
-  int velocidad; // CORRECCIÓN, no estaba esta parte para determinar el turno
+  int velocidad;
 
-  // CORRECCIÓN, actualizo el constructor para recibir velocidad
-  Pokemon(this.tipo, this.nombre, num vidaInput, this.nivel, this.velocidad)
+  Pokemon(this.tipo, this.nombre, num vidaInput, this.velocidad)
       : vida = vidaInput.toDouble(),
         vidaMax = vidaInput.toDouble();
 
-  void recibirDanio(int cantidad) {
+  /*void recibirDanio(int cantidad) {
     vida -= cantidad;
     if (vida < 0) vida = 0;
-  }
+  }*/
 
   @override
   void mostrarAtaque() {
@@ -36,9 +35,10 @@ class Ataque {
   String tipoAtaque;
   String nombreAtaque;
   int danio;
+  int prob_estado=0;
   double efectivo = 1.0;
 
-  Ataque(this.tipoAtaque, this.nombreAtaque, this.danio);
+  Ataque(this.tipoAtaque, this.nombreAtaque, this.danio,this.prob_estado);
 
   int calcularDanio() => (efectivo * danio).toInt();
 }
@@ -223,9 +223,51 @@ class PokemonBatalla extends Pokemon {
   EstadoCondicion estadoActual = EstadoCondicion.normal;
   List<Ataque> misAtaques;
 
-  // agrego también velocidad al constructor y a la llamada a super
-  PokemonBatalla(String tipo, String nombre, num vidaInput, int nivel,int velocidad, this.misAtaques)
-      : super(tipo, nombre, vidaInput, nivel, velocidad);
+  PokemonBatalla(String tipo, String nombre, num vidaInput,int velocidad, this.misAtaques)
+      : super(tipo, nombre, vidaInput, velocidad);
+
+  //@override
+  void recibirDanio(int cantidad,int prob_estado) {
+    if (prob_estado!=0){
+      Random rand = Random();
+      int chance = rand.nextInt(100);
+      if (chance < prob_estado) {
+        if(this.estadoActual==EstadoCondicion.normal){
+          if(this.tipo=="Fire"||
+              this.tipo=="Dragon"){
+            this.estadoActual=EstadoCondicion.quemado;
+            print("$nombre se ha QUEMADO!");
+          }
+          else if(this.tipo=="Water"||
+                  this.tipo=="Ice"||
+                  this.tipo=="Grass"){
+            this.estadoActual=EstadoCondicion.congelado;
+            print("$nombre se ha CONGELADO!");
+          }
+          else if(this.tipo=="Electric"||
+                  this.tipo=="Flying"||
+                  this.tipo=="Steel"||
+                  this.tipo=="Normal"||
+                  this.tipo=="Psychic"||
+                  this.tipo=="Ghost"||
+                  this.tipo=="Dark"){
+            this.estadoActual=EstadoCondicion.paralizado;
+            print("$nombre se ha PARALIZADO!");
+          }
+          else if(this.tipo=="Poison"||
+                  this.tipo=="Bug"||
+                  this.tipo=="Ground"||
+                  this.tipo=="Rock"||
+                  this.tipo=="Fight"){
+            this.estadoActual=EstadoCondicion.envenenado;
+            print("$nombre se ha ENVENENADO!");
+          }
+        }
+      }
+    }
+    vida -= cantidad;
+    if (vida < 0) vida = 0;
+  }
 
   @override
   void atacar(Pokemon objetivo, Ataque movimiento) {
@@ -250,7 +292,7 @@ class PokemonBatalla extends Pokemon {
       print("El ataque de $nombre se reduce a la mitad por la quemadura.");
     }
     int danioFinal = (danioCalculado * modificadorDanio).toInt();
-    objetivo.recibirDanio(danioFinal);
+    objetivo.recibirDanio(danioFinal,movimiento.prob_estado);
 
     
 
@@ -269,12 +311,12 @@ class PokemonBatalla extends Pokemon {
   void finDeTurno() {
     if (estadoActual == EstadoCondicion.quemado) {
       int d = (vidaMax * 0.06).toInt();
-      recibirDanio(d);
+      recibirDanio(d,0);
       print("$nombre recibe daño por quemadura (-$d HP).");
     }
     if (estadoActual == EstadoCondicion.envenenado) {
       int d = (vidaMax * 0.12).toInt();
-      recibirDanio(d);
+      recibirDanio(d,0);
       print("$nombre recibe daño por veneno (-$d HP).");
     }
     if(estadoActual == EstadoCondicion.congelado){
@@ -284,8 +326,14 @@ class PokemonBatalla extends Pokemon {
         print("$nombre se ha DESCONGELADO.");
       }
     }
+    if(estadoActual == EstadoCondicion.paralizado){
+      //posibilidad de curarse
+      if(Random().nextInt(10)==0){//10% de probabilidad
+        estadoActual = EstadoCondicion.normal;
+        print("$nombre se ha RECUPERADO de la PARALISIS.");
+      }
   }
-  
+  }
     
 }
 
@@ -342,7 +390,6 @@ class Hiperpocion extends Pocion {
 }
 
 // Clase base para curar estados
-// Clase base para curar estados específicos
 abstract class CuradorEstado extends Item {
   EstadoCondicion estadoACurar;
 
@@ -353,7 +400,7 @@ abstract class CuradorEstado extends Item {
   void usar(PokemonBatalla objetivo) {
     if (objetivo.estadoActual == estadoACurar) {
       objetivo.estadoActual = EstadoCondicion.normal;
-      print("🟢 El ${nombreItem} curó el estado ${estadoACurar.name.toUpperCase()} de ${objetivo.nombre}.");
+      print("El ${nombreItem} curó el estado ${estadoACurar.name.toUpperCase()} de ${objetivo.nombre}.");
     } else {
       print("${objetivo.nombre} no está sufriendo el estado ${estadoACurar.name.toUpperCase()}.");
     }
