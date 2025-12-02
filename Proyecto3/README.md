@@ -6,7 +6,7 @@
 - Bernal de la O Sofia Citlali
 - Garcia Novoa Mario
 - Miranda Sanchez Luis Eduardo
-- Rodriguez Trejo Ivonne Fernanda
+- Rodriguez Trejo Fernanda Ivonne
 - Román Ramos María Fernanda
 
 ## Proyecto construido con Flutter
